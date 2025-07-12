@@ -23,7 +23,9 @@ jobs:
         java-version: '21'
 
     - name: Build project with Maven
-      run: mvn clean package -DskipTests
+      run: |
+        cd tcsdemo
+        ./mvnw clean package -DskipTests
 
     - name: Build Docker image
       run: |
@@ -38,5 +40,5 @@ jobs:
 
     - name: Deploy to Minikube Kubernetes
       run: |
-        kubectl apply -f k8s/deployment.yaml
-        kubectl apply -f k8s/service.yaml
+        kubectl apply -f tcsdemo/k8s/deployment.yaml
+        kubectl apply -f tcsdemo/k8s/service.yaml
