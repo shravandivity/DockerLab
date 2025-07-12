@@ -37,7 +37,7 @@ jobs:
         echo $DOCKER_HUB_TOKEN | docker login -u $DOCKER_HUB_USERNAME --password-stdin
 
     - name: Push Docker image
-      run: docker push $DOCKER_HUB_USERNAME/myatcsdemojavaapppp:latest
+      run: docker push $DOCKER_HUB_USERNAME/tcsdemojavaapp:latest
 
     - name: Deploy to Minikube Kubernetes
       run: |
