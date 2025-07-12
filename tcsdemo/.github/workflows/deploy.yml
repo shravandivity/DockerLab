@@ -1,0 +1,42 @@
+name: Build & Deploy to Minikube
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: self-hosted  # Running on your local machine
+
+    env:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: Build project with Maven
+      run: mvn clean package -DskipTests
+
+    - name: Build Docker image
+      run: |
+        docker build -t $DOCKER_HUB_USERNAME/tcsdemojavaapp:latest .
+
+    - name: Login to Docker Hub
+      run: |
+        echo $DOCKER_HUB_TOKEN | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+
+    - name: Push Docker image
+      run: docker push $DOCKER_HUB_USERNAME/myatcsdemojavaapppp:latest
+
+    - name: Deploy to Minikube Kubernetes
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
