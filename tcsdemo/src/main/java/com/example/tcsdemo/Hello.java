@@ -11,6 +11,6 @@ public class Hello {
     @GetMapping("/hello")
     public String sayHello()
     {
-        return "Hello! Welcome to Java API running in minikube cluster!!!..";
+        return "Hello! Welcome to Java API running in minikube cluster.!!!..";
     }
 }
