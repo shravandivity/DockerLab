@@ -15,7 +15,7 @@ minikube-darwin-amd64
 
 ### IntelliJ IDEA ###
 .idea
-*.iws
+*.iwsc
 *.iml
 *.ipr
 
